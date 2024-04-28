@@ -3,8 +3,15 @@ from models import *
 from config import CURRENCIES
 from objects.exceptions import *
 from flask import session
+from bot import bot
 import uuid
 
+def send_telegram_notification(user, transaction):
+    if user.telegram_id:
+        try:
+            bot.send_message(chat_id=user.telegram_id, text=f"🏧 Новая операция: {transaction.amount} {transaction.currency} ({transaction.description})")
+        except Exception as e:
+            print(e)
 
 @transaction
 def make_transaction(user, amount, currency, description=None, project_id=None):
@@ -20,5 +27,8 @@ def make_transaction(user, amount, currency, description=None, project_id=None):
     if user.balance(currency) + amount < 0:
         raise InsufficientFunds
 
-    db.session.add(Transaction(user_id=user.id, amount=amount, currency=currency, description=description,
-                               session_id=session_id, project_id=project_id))
+    T = Transaction(user_id=user.id, amount=amount, currency=currency, description=description,
+                               session_id=session_id, project_id=project_id)
+    db.session.add(T)
+
+    send_telegram_notification(user, T)

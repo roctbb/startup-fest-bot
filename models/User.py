@@ -42,7 +42,7 @@ class User(db.Model):
 
         for comment in self.comments:
             if comment.project_id in investments:
-                investments[comment.project_id]['comment'] = comment.comment
+                investments[comment.project_id]['comment'] = comment.text
 
         return list(investments.values())
 

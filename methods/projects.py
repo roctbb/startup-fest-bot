@@ -16,12 +16,14 @@ def find_project_by_name(project_name):
 
 @transaction
 def make_investment(project, user, amount):
-    previous_transaction = Transaction.query.filter_by(user_id=user.id, project_id=project.id).first()
+    previous_transaction = Transaction.query.filter_by(user_id=user.id, project_id=project.id).order_by(
+        Transaction.id.desc()).first()
 
-    if not previous_transaction:
-        make_transaction(user, -1 * amount, 'PC', f'Инвестиция в проект {project.name}', project_id=project.id)
-    else:
-        previous_transaction.amount = -1 * amount
+    if previous_transaction:
+        make_transaction(user, -1 * previous_transaction.amount, 'PC', f'Отмена инвестиции в проект {project.name}',
+                         project_id=project.id)
+
+    make_transaction(user, -1 * amount, 'PC', f'Инвестиция в проект {project.name}', project_id=project.id)
 
 
 @transaction
@@ -36,4 +38,4 @@ def add_comment(project, user, comment):
 
 
 def has_investmensts_from(project, user):
-    return Transaction.query.filter_by(user_id=user.id, project_id=project.id) is not None
+    return Transaction.query.filter_by(user_id=user.id, project_id=project.id).first() is not None

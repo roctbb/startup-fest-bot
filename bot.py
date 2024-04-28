@@ -44,12 +44,14 @@ def send_investment_menu(message, user):
     button = types.KeyboardButton(text=NEW_INVESTMENT_TEXT)
     keyboard.add(button)
 
-    button = types.KeyboardButton(text=CHANGE_INVESTMENT_TEXT)
-    keyboard.add(button)
-
+    user_investments = user.investments()
     current_investments = ""
-    for investment in user.investments():
-        current_investments += f"\n👍 {investment['title']}: 💸 {investment['amount']}"
+    if user_investments:
+        button = types.KeyboardButton(text=CHANGE_INVESTMENT_TEXT)
+        keyboard.add(button)
+
+        for investment in user_investments:
+            current_investments += f"\n👍 {investment['title']}: 💸 {investment['amount']}"
 
     text = "Добро пожаловать, {0}! В кого инвестируем?".format(user.name)
 
@@ -91,7 +93,8 @@ def process_message(message, user):
 
         bot.register_next_step_handler(message, choose_project)
     else:
-        bot.send_message(message.from_user.id, "Для продолжения введите /start.", reply_markup=types.ReplyKeyboardRemove())
+        bot.send_message(message.from_user.id, "Для продолжения введите /start.",
+                         reply_markup=types.ReplyKeyboardRemove())
 
 
 @requires_user
@@ -147,6 +150,7 @@ def choose_comment(message, user):
         message = bot.send_message(message.from_user.id,
                                    f"Слишком короткий комментарий...")
         bot.register_next_step_handler(message, choose_comment)
+        return
     try:
         project = find_project_by_id(INPROGRESS_INVESTMENTS[user.id])
         add_comment(project, user, message.text)
@@ -183,4 +187,5 @@ def task_handler(message, user):
                              "Не удалось провести авторизацию, попробуйте прислать другую фотографию.")
 
 
-bot.polling(none_stop=True)
+if __name__ == '__main__':
+    bot.polling(none_stop=True)
