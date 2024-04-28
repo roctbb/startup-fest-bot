@@ -1,4 +1,6 @@
-from flask import Blueprint
+from flask import Blueprint, render_template, request, redirect
+from methods.users import *
+from methods.transactions import *
 from objects.basic_auth import *
 
 payments_blueprint = Blueprint('payments', __name__, template_folder='payments')
@@ -7,30 +9,38 @@ payments_blueprint = Blueprint('payments', __name__, template_folder='payments')
 @auth.login_required
 @payments_blueprint.route('/', methods=['GET'])
 def start_payment():
-    # TODO: отправить страницу начала платежа с вводом суммы и валюты, считыванием QR кода
-    pass
+    return render_template('payment.html')
 
 
 @auth.login_required
 @payments_blueprint.route('/payment', methods=['POST'])
 def make_payment():
-    # TODO: получить сумму, валюту, платежный код, вернуть редирект на страницу с текстом результата
-    pass
+    try:
+        user = find_user_by_payment_code(request.form.get('payment_code'))
+    except:
+        return redirect('/payments/not_found')
+
+    try:
+        make_transaction(user, request.form.get('amount'), request.form.get('currency'), 'Покупка в магазине')
+    except:
+        return redirect('/payments/insufficient_funds')
+
+    return redirect('/payments/success')
 
 
 @auth.login_required
 @payments_blueprint.route('/success', methods=['GET'])
 def payment_successful():
-    pass
+    return render_template('success.html')
 
 
 @auth.login_required
 @payments_blueprint.route('/insufficient_funds', methods=['GET'])
 def insufficient_funds():
-    pass
+    return render_template('error.html', error='Недостаточно средств для проведения платежа.')
 
 
 @auth.login_required
 @payments_blueprint.route('/not_found', methods=['GET'])
 def not_found():
-    pass
+    return render_template('error.html', error='Пользователь не найден.')
