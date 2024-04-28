@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+CURRENCIES = ['PC', 'PCE', 'PCS']
+
 DB_HOST = os.environ.get('DB_HOST')
 DB_DATABASE = os.environ.get('DB_DATABASE')
 DB_PORT = os.environ.get('DB_PORT')
