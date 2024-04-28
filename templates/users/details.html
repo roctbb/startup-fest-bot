@@ -1,0 +1,27 @@
+{% extends 'base_bootstrap.html' %}
+{% block head %}
+<script type="text/javascript" src="/static/jquery.min.js"></script>
+<script type="text/javascript" src="/static/qrcode.min.js"></script>
+{% endblock %}
+{% block title %}Создать пользователя{% endblock %}
+{% block page_title %}{{ user.name }} <small class="text-muted">{{ user.role }}</small>{% endblock %}
+
+{% block content %}
+
+{% if not user.telegram_id %}
+
+<div id="qrcode" class="my-4"></div>
+
+<script type="text/javascript">
+    new QRCode(document.getElementById("qrcode"), "{{ user.registration_code }}");
+</script>
+{% else %}
+{{ user.balance }}
+{% endif %}
+
+<a href="/users/pay/{{user.id}}" class="btn btn-success btn-lg my-2">Начислить</a><br>
+<a href="/users/edit/{{user.id}}" class="btn btn-primary btn-lg my-2">Изменить</a><br>
+<a href="/users/delete/{{user.id}}" class="btn btn-danger btn-lg my-2" onclick="return confirm('Вы уверены?')">Удалить</a><br>
+<a href="/users" class="btn btn-warning btn-lg my-2">Назад</a>
+
+{% endblock %}

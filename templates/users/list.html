@@ -20,7 +20,7 @@
     {% for user in users %}
     <tr>
         <td>{{ user.id }}</td>
-        <td>{{ user.name }}</td>
+        <td><a href="/users/{{ user.id }}">{{ user.name }}</a></td>
         <td>{{ user.role }}</td>
         <td>{% if user.telegram_id %}✅{% else %}❌{% endif %}</td>
     </tr>

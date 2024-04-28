@@ -7,24 +7,30 @@ users_blueprint = Blueprint('users', __name__)
 
 @auth.login_required
 @users_blueprint.route('/', methods=['GET'])
-def user_list():
-    return render_template('users/list.html', users=get_all_users())
+def list():
+    return render_template('users/list.html', users=as_dict(get_all_users()))
+
+@auth.login_required
+@users_blueprint.route('/<id>', methods=['GET'])
+def details(id):
+    user = find_user_by_id(id)
+    return render_template('users/details.html', user=user.as_dict())
 
 
 @auth.login_required
 @users_blueprint.route('/add', methods=['GET'])
-def add_user_page():
+def add_page():
     return render_template('/users/add.html')
 
 
 @auth.login_required
 @users_blueprint.route('/add', methods=['POST'])
-def add_user():
+def add():
     name = request.form.get('name')
     role = request.form.get('role')
 
     try:
         user = make_user(name, role)
-        return redirect(f'/{user.id}')
-    except:
+        return redirect(f'/users/{user.id}')
+    except Exception as e:
         return render_template('/users/add.html', role=role, name=name, error="Заполните все поля.")

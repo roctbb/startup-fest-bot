@@ -15,6 +15,8 @@ APP_SECRET = os.environ.get('APP_SECRET')
 HOST = "0.0.0.0"
 PORT = 1561
 
+START_MONEY = 100000
+
 DEBUG = bool(os.environ.get('DEBUG'))
 
 ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'editor')

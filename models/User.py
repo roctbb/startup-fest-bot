@@ -26,9 +26,10 @@ class User(db.Model):
     def as_dict(self):
         return {
             "id": self.id,
-            "name": self.text,
+            "name": self.name,
             "role": self.role,
             "telegram_id": self.telegram_id,
+            "registration_code": self.registration_code,
             "balance": {
                 currency: self.balance(currency) for currency in CURRENCIES
             }

@@ -1,6 +1,7 @@
 from models import *
 from objects.exceptions import *
 from .helpers import transaction
+import uuid
 
 
 def find_user_by_id(id):
@@ -36,6 +37,9 @@ def make_user(name, role):
     if not name:
         raise InsufficientData
 
-    user = User(name=name, role=role)
+    payment_code = str(uuid.uuid4())
+    registration_code = str(uuid.uuid4())
+
+    user = User(name=name, role=role, payment_code=payment_code, registration_code=registration_code)
     db.session.add(user)
     return user
