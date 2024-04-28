@@ -1,5 +1,5 @@
 from models import db
-
+from config import *
 
 def transaction(func):
     def wrapper(*args, **kwargs):
@@ -12,3 +12,4 @@ def transaction(func):
 
     wrapper.__name__ = func.__name__
     return wrapper
+
