@@ -16,12 +16,19 @@
     new QRCode(document.getElementById("qrcode"), "{{ user.registration_code }}");
 </script>
 {% else %}
-{{ user.balance }}
+
+<ul class="my-4">
+    {% for currency in user.balance %}
+    <li><strong> 💸 {{ currency }}:</strong> {{ user.balance[currency] }}</li>
+    {% endfor %}
+</ul>
+
 {% endif %}
 
 <a href="/users/pay/{{user.id}}" class="btn btn-success btn-lg my-2">Начислить</a><br>
 {% if not user.telegram_id %}
-<a href="/users/delete/{{user.id}}" class="btn btn-danger btn-lg my-2" onclick="return confirm('Вы уверены?')">Удалить</a><br>
+<a href="/users/delete/{{user.id}}" class="btn btn-danger btn-lg my-2"
+   onclick="return confirm('Вы уверены?')">Удалить</a><br>
 {% endif %}
 <a href="/users" class="btn btn-warning btn-lg my-2">Назад</a>
 

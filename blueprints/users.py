@@ -16,6 +16,19 @@ def details(id):
     user = find_user_by_id(id)
     return render_template('users/details.html', user=user.as_dict())
 
+@auth.login_required
+@users_blueprint.route('/pay/<id>', methods=['GET'])
+def add_funds_page(id):
+    user = find_user_by_id(id)
+    return render_template('users/add_funds.html', user=user.as_dict())
+
+@auth.login_required
+@users_blueprint.route('/pay/<id>', methods=['POST'])
+def add_funds(id):
+    user = find_user_by_id(id)
+    amount = request.form.get('amount', 0)
+    make_transaction(user, int(amount), "PCS", "Ручное начисление")
+    return redirect(f'/users/{user.id}')
 
 @auth.login_required
 @users_blueprint.route('/add', methods=['GET'])

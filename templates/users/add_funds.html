@@ -1,0 +1,25 @@
+{% extends 'base_bootstrap.html' %}
+
+{% block title %}Начисление средств{% endblock %}
+{% block page_title %}Начисление средств пользователю {{ user.name }}{% endblock %}
+
+{% block content %}
+
+{% if error %}
+<div class="alert alert-danger">
+    {{ error }}
+</div>
+{% endif %}
+
+<form method="POST" class="form-horizontal">
+    <div class="form-group my-3">
+        <label for="amount" class="control-label">Сумма <small class="text-muted">PCS</small></label>
+        <input type="number" min="0" max="100000" step="1" class="form-control" name="amount" value="{{ amount }}" required>
+    </div>
+
+    <div class="form-group my-3">
+        <button type="submit" class="btn btn-primary">Начислить</button>
+    </div>
+</form>
+<a href="/users/{{ user.id }}" class="btn btn-warning">Назад</a>
+{% endblock %}

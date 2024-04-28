@@ -9,5 +9,7 @@ class Transaction(db.Model):
     currency = db.Column(db.String(10), nullable=False)
     description = db.Column(db.Text, nullable=True)
 
+    session_id = db.Column(db.String(256))
+
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
     updated_on = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
