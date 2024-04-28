@@ -21,7 +21,8 @@ class User(db.Model):
     updated_on = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def balance(self, currency):
-        return sum(filter(lambda t: t.currency == currency, map(lambda t: t.amount, self.transactions)))
+        print(self.transactions)
+        return sum(map(lambda t: t.amount, filter(lambda t: t.currency == currency, self.transactions)))
 
     def as_dict(self):
         return {

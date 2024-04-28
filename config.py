@@ -12,6 +12,8 @@ DB_LOGIN = os.environ.get('DB_LOGIN')
 DB_PASSWORD = os.environ.get('DB_PASSWORD')
 APP_SECRET = os.environ.get('APP_SECRET')
 
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
+
 HOST = "0.0.0.0"
 PORT = 1561
 

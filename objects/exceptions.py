@@ -11,3 +11,6 @@ class InsufficientData(Exception):
 
 class InvalidRole(Exception):
     pass
+
+class Confuse(Exception):
+    pass

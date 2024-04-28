@@ -1,11 +1,28 @@
 from models import *
 from objects.exceptions import *
+from methods.transactions import *
 from .helpers import transaction
 import uuid
 
 
 def find_user_by_id(id):
     return User.query.filter_by(id=id).first()
+
+
+def find_user_by_telegram_id(id):
+    return User.query.filter_by(telegram_id=id).first()
+
+
+@transaction
+def activate_user(user, telegram_id):
+    another_user = find_user_by_telegram_id(telegram_id)
+
+    if another_user:
+        raise Confuse
+
+    user.telegram_id = telegram_id
+    make_transaction(user, START_MONEY, "PC", "Регистрация пользователя")
+
 
 
 def find_user_by_payment_code(code):
