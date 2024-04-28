@@ -1,0 +1,35 @@
+{% extends 'base_bootstrap.html' %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+  <div class="col-12 col-md-4">
+    <div class="card text-center m-3">
+      <div class="card-body">
+        <a href="/payments" class="btn btn-primary btn-lg">Касса</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-4">
+    <div class="card text-center m-3">
+      <div class="card-body">
+        <a href="/users" class="btn btn-success btn-lg">Пользователи</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-4">
+    <div class="card text-center m-3">
+      <div class="card-body">
+        <a href="/projects" class="btn btn-warning btn-lg">Проекты</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

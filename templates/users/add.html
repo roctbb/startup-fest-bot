@@ -1,0 +1,33 @@
+{% extends 'base_bootstrap.html' %}
+
+{% block title %}Создать пользователя{% endblock %}
+{% block page_title %}Создать пользователя{% endblock %}
+
+{% block content %}
+
+{% if error %}
+<div class="alert alert-danger">
+    {{ error }}
+</div>
+{% endif %}
+
+<form method="POST" class="form-horizontal">
+    <div class="form-group">
+        <label for="name" class="control-label">Name</label>
+        <input type="text" class="form-control" id="name" value="{{ name }}" required>
+    </div>
+    <div class="form-group">
+        <label for="role" class="control-label">Role</label>
+        <select class="form-control" id="role">
+            <option value="" disabled {% if not role %}selected{% endif %}>Select your role</option>
+            <option value="expert" {% if role==
+            'expert' %}selected{% endif %}>Expert</option>
+            <option value="student" {% if role==
+            'student' %}selected{% endif %}>Student</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>
+{% endblock %}

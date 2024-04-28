@@ -4,6 +4,9 @@
 {% block page_title %}Пользователи{% endblock %}
 
 {% block content %}
+
+<a href="/users/add" class="btn btn-primary btn-lg my-2">Добавить</a>
+
 <table class="table">
     <thead>
     <tr>
@@ -19,7 +22,7 @@
         <td>{{ user.id }}</td>
         <td>{{ user.name }}</td>
         <td>{{ user.role }}</td>
-        <td>{% if user.telegram_id %}✅{% endif %}</td>
+        <td>{% if user.telegram_id %}✅{% else %}❌{% endif %}</td>
     </tr>
     {% endfor %}
     </tbody>
