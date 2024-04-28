@@ -8,7 +8,7 @@ class Transaction(db.Model):
     amount = db.Column(db.Integer, nullable=False)
     currency = db.Column(db.String(10), nullable=False)
     description = db.Column(db.Text, nullable=True)
-
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id', ondelete='CASCADE'), nullable=True)
     session_id = db.Column(db.String(256))
 
     created_on = db.Column(db.DateTime, default=datetime.utcnow)

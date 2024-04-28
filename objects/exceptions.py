@@ -14,3 +14,6 @@ class InvalidRole(Exception):
 
 class Confuse(Exception):
     pass
+
+class InvalidData(Exception):
+    pass

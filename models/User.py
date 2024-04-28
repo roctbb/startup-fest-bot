@@ -14,6 +14,7 @@ class User(db.Model):
 
     projects = db.relationship('Project', secondary=project_user, backref='users')
     transactions = db.relationship('Transaction', backref=backref('user', uselist=False), lazy=True)
+    comments = db.relationship('Comment', backref=backref('user', uselist=False), lazy=True)
 
     telegram_id = db.Column(db.Integer, nullable=True)
 
@@ -24,6 +25,27 @@ class User(db.Model):
         print(self.transactions)
         return sum(map(lambda t: t.amount, filter(lambda t: t.currency == currency, self.transactions)))
 
+    def investments(self):
+        transactions = list(filter(lambda t: t.project_id, self.transactions))
+
+        investments = {}
+        for transaction in transactions:
+            if transaction.project_id not in investments:
+                investments[transaction.project_id] = {
+                    "amount": -1 * transaction.amount,
+                    "comment": "",
+                    "title": transaction.project.name,
+                    "id": transaction.project_id
+                }
+            else:
+                investments[transaction.project_id]['amount'] -= transaction.amount
+
+        for comment in self.comments:
+            if comment.project_id in investments:
+                investments[comment.project_id]['comment'] = comment.comment
+
+        return list(investments.values())
+
     def as_dict(self):
         return {
             "id": self.id,
@@ -33,5 +55,6 @@ class User(db.Model):
             "registration_code": self.registration_code,
             "balance": {
                 currency: self.balance(currency) for currency in CURRENCIES
-            }
+            },
+            "investments": self.investments()
         }
