@@ -3,13 +3,13 @@ from methods.users import *
 from methods.transactions import *
 from objects.basic_auth import *
 
-payments_blueprint = Blueprint('payments', __name__, template_folder='payments')
+payments_blueprint = Blueprint('payments', __name__)
 
 
 @auth.login_required
 @payments_blueprint.route('/', methods=['GET'])
 def start_payment():
-    return render_template('payment.html')
+    return render_template('payments/payment.html')
 
 
 @auth.login_required
@@ -31,16 +31,16 @@ def make_payment():
 @auth.login_required
 @payments_blueprint.route('/success', methods=['GET'])
 def payment_successful():
-    return render_template('success.html')
+    return render_template('payments/success.html')
 
 
 @auth.login_required
 @payments_blueprint.route('/insufficient_funds', methods=['GET'])
 def insufficient_funds():
-    return render_template('error.html', error='Недостаточно средств для проведения платежа.')
+    return render_template('payments/error.html', error='Недостаточно средств для проведения платежа.')
 
 
 @auth.login_required
 @payments_blueprint.route('/not_found', methods=['GET'])
 def not_found():
-    return render_template('error.html', error='Пользователь не найден.')
+    return render_template('payments/error.html', error='Пользователь не найден.')
