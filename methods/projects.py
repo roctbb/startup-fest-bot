@@ -36,6 +36,19 @@ def add_comment(project, user, comment):
     else:
         raise InsufficientData
 
+@transaction
+def make_project(name, description, link, members):
+    if not name or not description or not link or not members:
+        raise InsufficientData
+
+    project = Project(name=name, description=description, link=link)
+    db.session.add(project)
+    return project
+
+
+def change_description(description, project):
+    project.description = description
+
 
 def has_investmensts_from(project, user):
     return Transaction.query.filter_by(user_id=user.id, project_id=project.id).first() is not None

@@ -9,6 +9,10 @@ def find_user_by_id(id):
     return User.query.filter_by(id=id).first()
 
 
+def find_user_by_name(name):
+    return User.query.filter_by(name=name).first()
+
+
 def find_user_by_telegram_id(id):
     return User.query.filter_by(telegram_id=id).first()
 
