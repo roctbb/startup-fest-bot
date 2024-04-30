@@ -22,7 +22,7 @@
     </div>
     <div class="mb-3">
         <label for="members" class="form-label">Участники проекта</label>
-        <select class="selectpicker" id="members" name="members" liveSearch="true"
+        <select id="members" name="members"
                 multiple>
             {% for user in users %}
             <option value="{{ user.id }}" {% if user.id in members %}selected{% endif %}>{{ user.name }}
@@ -38,5 +38,13 @@
     </div>
     <button type="submit" class="btn btn-primary">Добавить</button>
 </form>
+
+<script>
+    $(function () {
+        $('#members').selectpicker({
+            liveSearch: true
+        });
+    });
+</script>
 
 {% endblock %}
