@@ -1,1 +1,99 @@
 {% extends 'base_bootstrap.html' %}
+
+{% block title %}Платежная страница{% endblock %}
+
+{% block content %}
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-md-10">
+            <div class="card rounded-5 m-3">
+                <div class="card-body">
+                    <div class="card rounded-4 mb-3 mt-3"
+                         style="background: linear-gradient(to right, #565656, #7a7a7a); color: white;">
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                Касса
+                            </h4>
+                            <p class="card-text">
+                                для удобных покупок
+                            </p>
+                        </div>
+                    </div>
+                    <form action="/payments/payment" method="post">
+                        <div>
+                            <input type="radio" class="btn-check btn-lg" name="currency" id="option5"
+                                   autocomplete="off" value="PCE"
+                                   checked>
+                            <label class="btn btn-outline-warning text-dark  rounded-4" for="option5">
+                                PCE
+                            </label>
+
+                            <input type="radio" class="btn-check btn-lg" name="currency" id="option6"
+                                   autocomplete="off" value="PCS">
+                            <label class="btn btn-outline-warning  rounded-4 text-dark" for="option6">
+                                PCS
+                            </label>
+                            
+                            <input name="payment_code" id="code" style="display: none"/>
+                        </div>
+                        <div class="form-floating mb-3 mt-3">
+                            <input onchange="buttonShow()" name="amount" type="number" class="form-control rounded-4" id="floatingInput"
+                                   placeholder="100">
+                            <label for="floatingInput">Сумма</label>
+                        </div>
+                        <button type="submit" id="sendButton" class="btn btn-warning btn-lg rounded-4" style="width: 100%; display: none">
+                            Далее
+                        </button>
+                        <center>
+                            <div id="qr-reader" style="width: 80%; display: none"></div>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/html5-qrcode.min.js"></script>
+    <script>
+        function buttonShow() {
+            var len = toString(document.getElementById('floatingInput').value).length
+            if (len >= 1) {
+                showQr()
+            }
+        }
+    
+        function showQr() {
+            document.getElementById('qr-reader').style.display = "block"
+            document.getElementById('sendButton').style.display = "none"
+        }
+
+        function docReady(fn) {
+            if (document.readyState === "complete" || document.readyState === "interactive") {
+                setTimeout(fn, 1);
+            } else {
+                document.addEventListener("DOMContentLoaded", fn);
+            }
+        }
+
+        docReady(function () {
+            var resultContainer = document.getElementById('qr-reader-results');
+            var lastResult, countResults = 0;
+
+            function onScanSuccess(decodedText, decodedResult) {
+                if (decodedText !== lastResult) {
+                    ++countResults;
+                    lastResult = decodedText;
+                    document.getElementById('code').value = decodedText;
+                    document.getElementById('sendButton').click()
+                    console.log(`Scan result ${decodedText}`, decodedResult);
+                }
+            }
+
+            var html5QrcodeScanner = new Html5QrcodeScanner(
+                "qr-reader", {fps: 10, qrbox: 250});
+            html5QrcodeScanner.render(onScanSuccess);
+        });
+    </script>
+
+{% endblock %}
