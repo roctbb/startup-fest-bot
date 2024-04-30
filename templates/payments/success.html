@@ -1,2 +1,38 @@
 {% extends 'base_bootstrap.html' %}
 
+{% block title %}Успешная операция{% endblock %}
+
+{% block content %}
+
+    <div class="row justify-content-center">
+
+
+        <div class="col-12 col-md-10" style="margin-top: 100px">
+            <center>
+                Операция прошла
+
+                <div class="card col-md-6 rounded-4 mb-4 mt-3"
+                     style="background: linear-gradient(to right, #6fc06a, #02d924); color: white;">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            Успешная покупка!
+                        </h3>
+                        <p class="card-text">
+                            Поздравляю!
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <hr>
+                    <a href="/" class="btn btn-warning btn-lg rounded-4 mt-3" style="width: 100%">
+                        На главную
+                    </a>
+                    <a href="/payments" class="btn btn-warning btn-lg rounded-4 mt-3" style="width: 100%">
+                        Повторить операцию
+                    </a>
+                </div>
+            </center>
+        </div>
+    </div>
+
+{% endblock %}
