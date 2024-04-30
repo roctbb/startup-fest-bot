@@ -21,8 +21,9 @@ def make_payment():
         return redirect('/payments/not_found')
 
     try:
-        make_transaction(user, -1 * request.form.get('amount'), request.form.get('currency'), 'Покупка в магазине')
-    except:
+        make_transaction(user, -1 * int(request.form.get('amount')), request.form.get('currency'), 'Покупка в магазине')
+    except Exception as e:
+        print(e)
         return redirect('/payments/insufficient_funds')
 
     return redirect('/payments/success')
