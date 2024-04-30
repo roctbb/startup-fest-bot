@@ -36,18 +36,24 @@ def add_comment(project, user, comment):
     else:
         raise InsufficientData
 
+
 @transaction
-def make_project(name, description, link, members):
-    if not name or not description or not link or not members:
+def make_project(name, description, link, users):
+    if not name or not description or not link:
         raise InsufficientData
 
     project = Project(name=name, description=description, link=link)
     db.session.add(project)
+    project.users = users
     return project
 
 
-def change_description(description, project):
+@transaction
+def update_project(project, name, description, link, users):
     project.description = description
+    project.name = name
+    project.link = link
+    project.users = users
 
 
 def has_investmensts_from(project, user):

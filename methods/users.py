@@ -6,15 +6,15 @@ import uuid
 
 
 def find_user_by_id(id):
-    return User.query.filter_by(id=id).first()
+    return User.query.filter_by(id=id).first_or_404()
 
 
 def find_user_by_name(name):
-    return User.query.filter_by(name=name).first()
+    return User.query.filter_by(name=name).first_or_404()
 
 
 def find_user_by_telegram_id(id):
-    return User.query.filter_by(telegram_id=id).first()
+    return User.query.filter_by(telegram_id=id).first_or_404()
 
 
 @transaction
@@ -30,21 +30,10 @@ def activate_user(user, telegram_id):
 
 
 def find_user_by_payment_code(code):
-    user = User.query.filter_by(payment_code=code).first()
-
-    if not user:
-        raise NotFound
-
-    return user
-
+    return User.query.filter_by(payment_code=code).first_or_404()
 
 def find_user_by_registration_code(code):
-    user = User.query.filter_by(registration_code=code).first()
-
-    if not user:
-        raise NotFound
-
-    return user
+    return User.query.filter_by(registration_code=code).first_or_404()
 
 
 def get_all_users():

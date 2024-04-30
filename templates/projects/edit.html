@@ -1,0 +1,43 @@
+{% extends 'base_bootstrap.html' %}
+
+{% block title %}Проекты{% endblock %}
+{% block page_title %}Добавить проект{% endblock %}
+
+{% block content %}
+{% if error %}
+<div class="alert alert-danger">
+    {{ error }}
+</div>
+{% endif %}
+
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label">Имя</label>
+        <input type="text" class="form-control" value="{{name}}" name="name"
+               placeholder="Введите имя проекта">
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Описание</label>
+        <textarea class="form-control" id="description" name="description"
+                  rows="3" placeholder="Введите описание">{{ description }}</textarea>
+    </div>
+    <div class="mb-3">
+        <label for="members" class="form-label">Участники проекта</label>
+        <select class="selectpicker" id="members" name="members" liveSearch="true"
+                multiple>
+            {% for user in users %}
+            <option value="{{ user.id }}" {% if user.id in members %}selected{% endif %}>{{ user.name }}
+            </option>
+            {% endfor %}
+        </select>
+
+    </div>
+    <div class="mb-3">
+        <label for="link" class="form-label">Ссылка на проект</label>
+        <input type="text" class="form-control" id="link" name="link" value="{{link}}"
+               placeholder="Введите ссылку">
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+
+{% endblock %}
