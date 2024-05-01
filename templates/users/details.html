@@ -1,33 +1,88 @@
 {% extends 'base_bootstrap.html' %}
 {% block head %}
+    <script type="text/javascript" src="/static/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/qrcode.min.js"></script>
 {% endblock %}
-{% block title %}Создать пользователя{% endblock %}
-{% block page_title %}{{ user.name }} <small class="text-muted">{{ user.role }}</small>{% endblock %}
+{% block title %}{{ user.role }} {{ user.name }}{% endblock %}
 
 {% block content %}
+    <div class="row justify-content-center mt-3">
 
-{% if not user.telegram_id %}
+        <div class="col-12 col-md-10">
+            <div class="card rounded-5 m-3">
+                <div class="card-body">
+                    <h3>{{ user.name }} <span class="badge rounded-pill text-bg-warning">{{ user.role }}</span></h3>
+                    {% if not user.telegram_id %}
+                        <center>
+                            <div id="qrcode" class="my-4"></div>
+                        </center>
 
-<div id="qrcode" class="my-4"></div>
+                        <script type="text/javascript">
+                            new QRCode(document.getElementById("qrcode"), "{{ user.registration_code }}");
+                        </script>
+                    {% else %}
+                        <ul class="list-group col-md-6">
+                            {% for currency in user.balance %}
+                                <li class="list-group-item d-flex justify-content-between align-items-start rounded-5 mb-3">
+                                    <div class="ms-2 mb-0 me-auto">
+                                        <div class="mb-0">
+                                            <h4 class="mb-0">💸 {{ currency }}</h4>
+                                            {% if currency == "PCS" %}
+                                                Валюта ученика
+                                            {% else %}
+                                                Валюта эксперта
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <h4>
+                                    <span class="badge text-bg-warning rounded-pill mb-0">
+                                        {{ user.balance[currency] }}
+                                    </span>
+                                    </h4>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
 
-<script type="text/javascript">
-    new QRCode(document.getElementById("qrcode"), "{{ user.registration_code }}");
-</script>
-{% else %}
-
-<ul class="my-4">
-    {% for currency in user.balance %}
-    <li><strong> 💸 {{ currency }}:</strong> {{ user.balance[currency] }}</li>
-    {% endfor %}
-</ul>
-
-{% endif %}
-
-<a href="/users/pay/{{user.id}}" class="btn btn-success btn-lg my-2">Начислить</a><br>
-{% if not user.telegram_id %}
-<a href="/users/delete/{{user.id}}" class="btn btn-danger btn-lg my-2"
-   onclick="return confirm('Вы уверены?')">Удалить</a><br>
-{% endif %}
-<a href="/users" class="btn btn-warning btn-lg my-2">Назад</a>
+                    <div class="row g-3">
+                        {% if not user.telegram_id %}
+                            <hr>
+                            <div class="col-md-6">
+                                <a href="/users" class="btn btn-lg rounded-4"
+                                   style="width: 100%; color: white; background: lightslategray; display: block">
+                                    Назад
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="/users/pay/{{ user.id }}" class="btn btn-warning btn-lg rounded-4"
+                                   style="width: 100%; display: block">
+                                    Начислить
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="/users/delete/{{ user.id }} "
+                                   class="btn btn-danger mt-0 btn-lg rounded-4"
+                                   style="width: 100%; display: block"
+                                   onclick="return confirm('Вы уверены?')">Удалить</a><br>
+                            </div>
+                        {% else %}
+                            <div class="col-md-8">
+                                <a href="/users" class="btn btn-lg rounded-4"
+                                   style="width: 100%; color: white; background: lightslategray; display: block">
+                                    Назад
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="/users/pay/{{ user.id }}" class="btn btn-warning btn-lg rounded-4"
+                                   style="width: 100%; display: block">
+                                    Начислить
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

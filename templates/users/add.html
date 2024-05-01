@@ -1,16 +1,70 @@
 {% extends 'base_bootstrap.html' %}
 
 {% block title %}Создать пользователя{% endblock %}
-{% block page_title %}Создать пользователя{% endblock %}
 
 {% block content %}
 
-{% if error %}
-<div class="alert alert-danger">
-    {{ error }}
-</div>
-{% endif %}
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endif %}
+    
+    <div class="row justify-content-center mt-3">
 
+        <div class="col-12 col-md-10">
+            <div class="card rounded-5 m-3">
+                <div class="card-body">
+                    <div class="card rounded-4 mb-3 mt-3"
+                         style="background: linear-gradient(to right, #565656, #7a7a7a); color: white;">
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                Создание пользователя
+                            </h4>
+                            <p class="card-text">
+                                для этого нужно только имя, фамилия и роль
+                            </p>
+                        </div>
+                    </div>
+                    <form method="POST">
+                        <div>
+                            <input type="radio" class="btn-check btn-lg" name="currency" id="option5"
+                                   autocomplete="off" value="expert"
+                                   checked>
+                            <label class="btn btn-outline-warning text-dark  rounded-4" for="option5">
+                                Эксперт
+                            </label>
+
+                            <input type="radio" class="btn-check btn-lg" name="currency" id="option6"
+                                   autocomplete="off" value="student">
+                            <label class="btn btn-outline-warning  rounded-4 text-dark" for="option6">
+                                Ученик
+                            </label>
+                        
+                        </div>
+                        <div class="form-floating mb-3 mt-3">
+                            <input name="name" value="{{ name }}" type="text" class="form-control rounded-4" id="floatingInput"
+                                   placeholder="Иван">
+                            <label for="floatingInput">Имя и фамилия</label>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <button type="submit" class="btn btn-warning btn-lg rounded-4"
+                                        style="width: 100%; display: block">
+                                    Перевести
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="/users/{{ user.id }}" class="btn btn-lg rounded-4"
+                                        style="width: 100%; color: white; background: lightslategray; display: block">
+                                    Отменить
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 <form method="POST" class="form-horizontal">
     <div class="form-group my-3">
         <label class="control-label">Имя и фамилия</label>
@@ -27,5 +81,4 @@
     <div class="form-group my-3">
         <button type="submit" class="btn btn-primary">Создать</button>
     </div>
-</form>
 {% endblock %}

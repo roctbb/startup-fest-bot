@@ -1,25 +1,54 @@
 {% extends 'base_bootstrap.html' %}
 
 {% block title %}Начисление средств{% endblock %}
-{% block page_title %}Начисление средств пользователю {{ user.name }}{% endblock %}
 
 {% block content %}
 
-{% if error %}
-<div class="alert alert-danger">
-    {{ error }}
-</div>
-{% endif %}
+    {% if error %}
+        <div class="alert alert-danger mb-3">
+            {{ error }}
+        </div>
+    {% endif %}
 
-<form method="POST" class="form-horizontal">
-    <div class="form-group my-3">
-        <label for="amount" class="control-label">Сумма <small class="text-muted">PCS</small></label>
-        <input type="number" min="0" max="100000" step="1" class="form-control" name="amount" value="{{ amount }}" required>
-    </div>
+    <div class="row justify-content-center mt-3">
 
-    <div class="form-group my-3">
-        <button type="submit" class="btn btn-primary">Начислить</button>
+        <div class="col-12 col-md-10">
+            <div class="card rounded-5 m-3">
+                <div class="card-body">
+                    <div class="card rounded-4 mb-3 mt-3"
+                         style="background: linear-gradient(to right, #565656, #7a7a7a); color: white;">
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                Перевод
+                            </h4>
+                            <p class="card-text">
+                                начисление средств пользовтелю {{ user.name }}
+                            </p>
+                        </div>
+                    </div>
+                    <form method="POST" class="form-horizontal">
+                        <div class="form-floating mb-3 mt-3">
+                            <input name="amount" type="number" class="form-control rounded-4" id="floatingInput"
+                                   placeholder="100" value="{{ amount }}" min="0" max="100000" step="1" required>
+                            <label for="floatingInput">Сумма PCS</label>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <button type="submit" class="btn btn-warning btn-lg rounded-4"
+                                        style="width: 100%; display: block">
+                                    Перевести
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="/users/{{ user.id }}" class="btn btn-lg rounded-4"
+                                        style="width: 100%; background: lightslategray; color: white; display: block">
+                                    Отменить
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-</form>
-<a href="/users/{{ user.id }}" class="btn btn-warning">Назад</a>
 {% endblock %}
