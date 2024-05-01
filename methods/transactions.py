@@ -6,12 +6,16 @@ from flask import session
 from bot import bot
 import uuid
 
-def send_telegram_notification(user, transaction):
+
+def send_telegram_notification(user, text, image=None):
     if user.telegram_id:
         try:
-            bot.send_message(chat_id=user.telegram_id, text=f"🏧 Новая операция: {transaction.amount} {transaction.currency} ({transaction.description})")
+            bot.send_message(chat_id=user.telegram_id, text=text)
+            if image:
+                bot.send_photo(chat_id=user.telegram_id, photo=image)
         except Exception as e:
             print(e)
+
 
 @transaction
 def make_transaction(user, amount, currency, description=None, project_id=None):
@@ -27,8 +31,9 @@ def make_transaction(user, amount, currency, description=None, project_id=None):
     if user.balance(currency) + amount < 0:
         raise InsufficientFunds
 
-    T = Transaction(user_id=user.id, amount=amount, currency=currency, description=description,
-                               session_id=session_id, project_id=project_id)
-    db.session.add(T)
+    transaction = Transaction(user_id=user.id, amount=amount, currency=currency, description=description,
+                              session_id=session_id, project_id=project_id)
+    db.session.add(transaction)
 
-    send_telegram_notification(user, T)
+    send_telegram_notification(user,
+                               f"🏧 Новая операция: {transaction.amount} {transaction.currency} ({transaction.description})")
