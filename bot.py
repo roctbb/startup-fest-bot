@@ -107,6 +107,11 @@ def choose_project(message, user):
     try:
         project = find_project_by_name(project_name)
 
+        if user in project.users:
+            bot.send_message(message.from_user.id, "Нельзя инвестировать в свой проект.")
+            send_investment_menu(message, user)
+            return
+
         INPROGRESS_INVESTMENTS[user.id] = project.id
 
         message = bot.send_message(message.from_user.id, f"Сколько хотите инвестировать? Введите 0 для отмены.",

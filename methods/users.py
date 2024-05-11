@@ -39,7 +39,6 @@ def find_user_by_registration_code(code):
 def get_all_users():
     return User.query.all()
 
-
 @transaction
 def make_user(name, role):
     if role not in ['student', 'expert']:
