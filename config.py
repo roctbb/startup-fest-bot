@@ -22,6 +22,7 @@ START_MONEY = 100000
 DEBUG = bool(os.environ.get('DEBUG'))
 
 PRICELIST = os.environ.get('PRICELIST', 'gogole.com')
+QUIZ = os.environ.get('QUIZ', 'quiz_link')
 
 ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'editor')
 ADMIN_PASSWORD_HASH = os.environ.get('ADMIN_PASSWORD_HASH',
