@@ -183,14 +183,18 @@ def task_handler(message, user):
         real_path = 'https://api.telegram.org/file/bot{0}/'.format(BOT_TOKEN) + path.file_path
         url = 'http://api.qrserver.com/v1/read-qr-code/'
 
+        print(real_path)
+
         res = requests.post(url, {'fileurl': real_path})
         try:
             registration_code = res.json()[0]['symbol'][0]['data']
+            print(registration_code)
             user = find_user_by_registration_code(registration_code)
             activate_user(user, message.from_user.id)
             bot.send_message(message.from_user.id,
                              "Успешная активация")
-        except:
+        except Exception as e:
+            print(e)
             bot.send_message(message.from_user.id,
                              "Не удалось провести авторизацию, попробуйте прислать другую фотографию.")
 
