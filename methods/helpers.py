@@ -22,7 +22,10 @@ def find_user(func):
         from .users import find_user_by_telegram_id
         try:
             with app.app_context():
-                user = find_user_by_telegram_id(message.from_user.id)
+                try:
+                    user = find_user_by_telegram_id(message.from_user.id)
+                except:
+                    user = None
                 result = func(message, user)
                 return result
         except Exception as e:
