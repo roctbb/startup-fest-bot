@@ -29,7 +29,8 @@ def add_project():
             return redirect("/projects")
         except NotFound:
             error = 'Пользователь не найден!'
-        except:
+        except Exception as e:
+            print(e)
             error = 'Заполните все поля!'
 
     return render_template('projects/add.html', error=error, users=get_all_users(), name=name, description=description,
