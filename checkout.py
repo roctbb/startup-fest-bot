@@ -7,6 +7,8 @@ with app.app_context():
     projects = get_all_projects()
     users = get_all_users()
 
+    delete_auto_transactions()
+
     for project in projects:
         if not project.users:
             continue
@@ -22,12 +24,12 @@ with app.app_context():
         if per_user_expert_investment:
             for user in project.users:
                 make_transaction(user, per_user_expert_investment, 'PCE',
-                                 f'Инвестиции в проект {project.name} от экспертов')
+                                 f'Инвестиции в проект {project.name} от экспертов', is_auto=True)
 
         if per_user_student_investment:
             for user in project.users:
                 make_transaction(user, per_user_student_investment, 'PCS',
-                                 f'Инвестиции в проект {project.name} от гостей')
+                                 f'Инвестиции в проект {project.name} от гостей', is_auto=True)
 
     for user in filter(lambda u: u.telegram_id, users):
         qrcode = segno.make_qr(user.payment_code)

@@ -18,7 +18,7 @@ def send_telegram_notification(user, text, image=None):
 
 
 @transaction
-def make_transaction(user, amount, currency, description=None, project_id=None):
+def make_transaction(user, amount, currency, description=None, project_id=None, is_auto=False):
     try:
         if "session_id" not in session:
             session['session_id'] = str(uuid.uuid4())
@@ -32,8 +32,13 @@ def make_transaction(user, amount, currency, description=None, project_id=None):
         raise InsufficientFunds
 
     transaction = Transaction(user_id=user.id, amount=amount, currency=currency, description=description,
-                              session_id=session_id, project_id=project_id)
+                              session_id=session_id, project_id=project_id, is_auto=is_auto)
     db.session.add(transaction)
 
     send_telegram_notification(user,
                                f"🏧 Новая операция: {transaction.amount} {transaction.currency} ({transaction.description})")
+
+@transaction
+def delete_auto_transactions():
+    for tr in Transaction.query.filter_by(is_auto=True).all():
+        db.session.delete(tr)
