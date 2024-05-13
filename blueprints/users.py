@@ -5,28 +5,28 @@ from objects.basic_auth import *
 users_blueprint = Blueprint('users', __name__)
 
 
-@auth.login_required
 @users_blueprint.route('/', methods=['GET'])
+@auth.login_required
 def list():
     return render_template('users/list.html', users=as_dict(get_all_users()))
 
 
-@auth.login_required
 @users_blueprint.route('/<id>', methods=['GET'])
+@auth.login_required
 def details(id):
     user = find_user_by_id(id)
     return render_template('users/details.html', user=user.as_dict())
 
 
-@auth.login_required
 @users_blueprint.route('/pay/<id>', methods=['GET'])
+@auth.login_required
 def add_funds_page(id):
     user = find_user_by_id(id)
     return render_template('users/add_funds.html', user=user.as_dict())
 
 
-@auth.login_required
 @users_blueprint.route('/pay/<id>', methods=['POST'])
+@auth.login_required
 def add_funds(id):
     user = find_user_by_id(id)
     amount = request.form.get('amount', 0)
@@ -34,14 +34,14 @@ def add_funds(id):
     return redirect(f'/users/{user.id}')
 
 
-@auth.login_required
 @users_blueprint.route('/add', methods=['GET'])
+@auth.login_required
 def add_page():
     return render_template('/users/add.html')
 
 
-@auth.login_required
 @users_blueprint.route('/add', methods=['POST'])
+@auth.login_required
 def add():
     name = ' '.join(map(lambda s: s.capitalize(), request.form.get('name', '').split(' ')))
     role = request.form.get('role', '')

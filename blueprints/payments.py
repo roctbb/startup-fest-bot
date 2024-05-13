@@ -6,14 +6,14 @@ from objects.basic_auth import *
 payments_blueprint = Blueprint('payments', __name__)
 
 
-@auth.login_required
 @payments_blueprint.route('/', methods=['GET'])
+@auth.login_required
 def start_payment():
     return render_template('payments/payment.html')
 
 
-@auth.login_required
 @payments_blueprint.route('/payment', methods=['POST'])
+@auth.login_required
 def make_payment():
     try:
         user = find_user_by_payment_code(request.form.get('payment_code'))
@@ -29,19 +29,19 @@ def make_payment():
     return redirect('/payments/success')
 
 
-@auth.login_required
 @payments_blueprint.route('/success', methods=['GET'])
+@auth.login_required
 def payment_successful():
     return render_template('payments/success.html')
 
 
-@auth.login_required
 @payments_blueprint.route('/insufficient_funds', methods=['GET'])
+@auth.login_required
 def insufficient_funds():
     return render_template('payments/error.html', error='Недостаточно средств для проведения платежа.')
 
 
-@auth.login_required
 @payments_blueprint.route('/not_found', methods=['GET'])
+@auth.login_required
 def not_found():
     return render_template('payments/error.html', error='Пользователь не найден.')

@@ -5,15 +5,15 @@ from methods import *
 projects_blueprint = Blueprint('projects', __name__)
 
 
-@auth.login_required
 @projects_blueprint.route('/', methods=['GET'])
+@auth.login_required
 def projects():
     return render_template("projects/list.html", projects=get_all_projects())
 
 
-@auth.login_required
+
 @projects_blueprint.route('/add', methods=['POST', 'GET'])
-@transaction
+@auth.login_required
 def add_project():
     name = request.form.get('name', '')
     description = request.form.get('description', '')
@@ -36,20 +36,20 @@ def add_project():
                            link=link, members=members)
 
 
-@auth.login_required
+
 @projects_blueprint.route('/edit/<int:project_id>', methods=['POST', 'GET'])
-@transaction
+@auth.login_required
 def edit_project(project_id):
     project = find_project_by_id(project_id)
     error = ''
+    description = request.form.get('description', '')
+    name = request.form.get('name', '')
+    members = request.form.getlist('members')
+    link = request.form.get('link', '')
+
 
     if request.method == 'POST':
         try:
-            description = request.form.get('description', '')
-            name = request.form.get('name', '')
-            members = request.form.getlist('members')
-            link = request.form.get('link', '')
-
             project_users = [find_user_by_id(user_id) for user_id in members]
             update_project(project, name, description, link, project_users)
 
