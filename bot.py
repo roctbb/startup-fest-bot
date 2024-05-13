@@ -193,6 +193,7 @@ def task_handler(message, user):
             activate_user(user, message.from_user.id)
             bot.send_message(message.from_user.id,
                              "Успешная активация")
+            send_investment_menu(message, user)
         except Exception as e:
             print(e)
             bot.send_message(message.from_user.id,
