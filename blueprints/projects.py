@@ -24,7 +24,7 @@ def add_project():
     if request.method == 'POST':
         try:
             project_users = [find_user_by_id(user_id) for user_id in members]
-            make_project(name, description, link, members, project_users)
+            make_project(name, description, link, project_users)
 
             return redirect("/projects")
         except NotFound:
