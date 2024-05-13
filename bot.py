@@ -187,7 +187,7 @@ def task_handler(message, user):
 
         res = requests.post(url, {'fileurl': real_path})
         try:
-            registration_code = res.json()[0]['symbol'][0]['data']
+            registration_code = res.json()[0]['symbol'][0]['data'].strip()
             print(registration_code)
             user = find_user_by_registration_code(registration_code)
             activate_user(user, message.from_user.id)

@@ -19,10 +19,13 @@ def find_user_by_telegram_id(id):
 
 @transaction
 def activate_user(user, telegram_id):
-    another_user = find_user_by_telegram_id(telegram_id)
+    try:
+        another_user = find_user_by_telegram_id(telegram_id)
 
-    if another_user:
-        raise Confuse
+        if another_user:
+            raise Confuse
+    except:
+        pass
 
     user.telegram_id = telegram_id
     make_transaction(user, START_MONEY, "PC", "Регистрация пользователя")
