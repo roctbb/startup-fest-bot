@@ -10,7 +10,7 @@ class Transaction(db.Model):
     description = db.Column(db.Text, nullable=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id', ondelete='CASCADE'), nullable=True)
     session_id = db.Column(db.String(256))
-    is_auto = db.Column(db.Boolean, nullable=False, default=False)
+    is_auto = db.Column(db.Boolean, nullable=False, default=False, server_default='false')
 
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
     updated_on = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
