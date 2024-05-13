@@ -3,7 +3,7 @@ from .transactions import *
 
 
 def get_all_projects():
-    return Project.query.all()
+    return Project.query.order_by(Project.name).all()
 
 
 def find_project_by_id(project_id):
