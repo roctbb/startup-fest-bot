@@ -39,7 +39,7 @@ def add_comment(project, user, comment):
 
 @transaction
 def make_project(name, description, link, users):
-    if not name or not description or not link:
+    if not name:
         raise InsufficientData
 
     project = Project(name=name, description=description, link=link)
