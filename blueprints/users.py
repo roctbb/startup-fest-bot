@@ -46,8 +46,11 @@ def add():
     name = ' '.join(map(lambda s: s.capitalize(), request.form.get('name', '').split(' ')))
     role = request.form.get('role', '')
 
-    if name and find_user_by_name(name):
-        return redirect(f'/users/{find_user_by_name(name).id}')
+    try:
+        if name and find_user_by_name(name):
+            return redirect(f'/users/{find_user_by_name(name).id}')
+    except:
+        pass
 
     try:
         user = make_user(name, role)
