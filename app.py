@@ -6,6 +6,7 @@ app.register_blueprint(users_blueprint, url_prefix='/users')
 app.register_blueprint(projects_blueprint, url_prefix='/projects')
 
 @app.route('/')
+@auth.login_required
 def index():
     return render_template('index.html')
 
